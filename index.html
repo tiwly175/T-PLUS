@@ -129,6 +129,7 @@
   .wallet-carousel::-webkit-scrollbar{display:none;}
   .wallet-card{scroll-snap-align:start;flex:0 0 72%;max-width:250px;border-radius:16px;padding:14px 16px;color:#fff;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--wc-a),var(--wc-b));box-shadow:0 6px 16px rgba(0,0,0,0.18);}
   .wallet-card::after{content:"";position:absolute;inset:0;background:radial-gradient(120px 90px at 100% 0%, rgba(255,255,255,0.18), transparent 60%);pointer-events:none;}
+  .wallet-card::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);}
   .wallet-card .wc-top{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;opacity:0.95;position:relative;z-index:1;}
   .wallet-card .wc-top .i{opacity:0.95;}
   .wallet-card .wc-bal{font-size:21px;font-weight:700;margin-top:14px;letter-spacing:-0.01em;position:relative;z-index:1;}
@@ -144,6 +145,15 @@
   .recent-chip-row button{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;cursor:pointer;font-family:inherit;width:62px;}
   .recent-chip-row .rc-ic{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
   .recent-chip-row .rc-t{font-size:10px;color:var(--text-soft);text-align:center;line-height:1.25;max-width:60px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .heatmap{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;}
+  .heatmap .hd{font-size:9.5px;color:var(--text-soft);text-align:center;font-weight:600;padding-bottom:2px;}
+  .heatmap .hc{aspect-ratio:1;border-radius:6px;background:var(--border);display:flex;align-items:flex-end;justify-content:flex-start;padding:2px 3px;font-size:8px;color:var(--text-soft);font-weight:600;}
+  .heatmap .hc.pad{background:transparent;}
+  .heatmap .hc.today{box-shadow:0 0 0 1.5px var(--mint) inset;}
+  .insight-row{display:flex;gap:10px;margin-top:12px;}
+  .insight-row .ins{flex:1;background:var(--surface);border-radius:12px;padding:10px 12px;}
+  .insight-row .ins .k{font-size:10.5px;color:var(--text-soft);margin-bottom:4px;}
+  .insight-row .ins .v{font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;}
   main{flex:1;padding:16px 20px 104px;}
   section.view{display:none;}
   section.view.active{display:block;animation:fadeUp .28s ease;}
@@ -165,6 +175,9 @@
   .legend-row .bar{height:4px;border-radius:3px;background:var(--border);overflow:hidden;}
   .legend-row .bar i{display:block;height:100%;border-radius:3px;}
   .empty-note{color:var(--text-soft);font-size:13.5px;text-align:center;padding:18px 0;width:100%;}
+  .empty-state{display:flex;flex-direction:column;align-items:center;gap:10px;padding:26px 10px 14px;color:var(--text-soft);text-align:center;width:100%;}
+  .empty-state .es-ic{width:46px;height:46px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--text-soft);}
+  .empty-state .es-t{font-size:13px;line-height:1.5;max-width:220px;}
 
   .seg-toggle{display:flex;background:var(--bg2);border-radius:13px;padding:3px;margin-bottom:16px;border:1px solid var(--border);}
   .seg-toggle button{flex:1;border:none;background:none;padding:9px;border-radius:10px;font-weight:600;font-size:13.5px;color:var(--text-soft);cursor:pointer;font-family:'IBM Plex Sans Thai',sans-serif;transition:all .15s;}
@@ -331,6 +344,26 @@
   .about-row{font-size:11.5px;color:var(--text-soft);text-align:center;margin-top:4px;line-height:1.7;}
   .i{width:1em;height:1em;display:inline-block;vertical-align:-0.15em;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
   .i.lg{width:1.3em;height:1.3em}
+  /* tactile press feedback — makes taps feel native instead of flat/web-like */
+  .fab,.btn-primary,.btn-ghost,.chip,.cat-chip,.quick-grid button,.tb-btn,.wallet-card .wc-actions button,
+  .seg-toggle button,.filter-chips button,nav.tabs button,.settings-row,.entry,.recent-chip-row button,
+  .del,.close-x,.briBtn,.month-picker button,.dlg-btns button{
+    transition:transform .12s ease, box-shadow .12s ease, background-color .15s ease, opacity .12s ease;
+  }
+  .fab:active{transform:scale(0.90);}
+  .btn-primary:active,.btn-ghost:active,.dlg-btns button:active{transform:scale(0.97);}
+  .chip:active,.cat-chip:active,.quick-grid button:active .qi,.recent-chip-row button:active .rc-ic,
+  .wallet-card .wc-actions button:active,.briBtn:active,.month-picker button:active,.close-x:active{transform:scale(0.92);}
+  .quick-grid button:active .qt,.recent-chip-row button:active .rc-t{opacity:0.7;}
+  .tb-btn:active .ic,.settings-row:active{transform:scale(0.96);}
+  .entry:active{background:var(--surface);}
+  .wallet-card{transition:transform .15s ease;}
+  .wallet-card:active{transform:scale(0.98);}
+  @media (prefers-reduced-motion: reduce){
+    .fab:active,.btn-primary:active,.btn-ghost:active,.chip:active,.cat-chip:active,.wallet-card:active,
+    .wallet-card .wc-actions button:active,.briBtn:active,.month-picker button:active,.close-x:active,
+    .tb-btn:active .ic,.settings-row:active,.dlg-btns button:active{transform:none;}
+  }
   ::-webkit-scrollbar{width:0;height:0;}
 </style>
 </head>
@@ -395,6 +428,11 @@
           <span><i style="background:var(--coral)"></i>รายจ่าย</span>
         </div>
         <div id="trendWrap" class="trend-wrap"></div>
+      </div>
+      <div class="card" style="--card-accent:var(--coral)">
+        <h2><span class="dot"></span>ไฮไลต์การใช้จ่ายเดือนนี้</h2>
+        <div id="heatmapWrap"></div>
+        <div id="insightWrap"></div>
       </div>
       <div class="card" style="--card-accent:var(--coral)">
         <h2><span class="dot"></span>สัดส่วนรายจ่าย</h2>
@@ -800,7 +838,7 @@
   function renderDonut(containerId, type, monthTx){
     var el = document.getElementById(containerId);
     var items = monthTx.filter(function(t){ return t.type===type; });
-    if(items.length===0){ el.innerHTML = '<p class="empty-note">ยังไม่มีรายการเดือนนี้</p>'; return; }
+    if(items.length===0){ el.innerHTML = '<div class="empty-state"><span class="es-ic">'+ic("donut")+'</span><span class="es-t">ยังไม่มีรายการเดือนนี้</span></div>'; return; }
     var sums = {}; var total = 0;
     items.forEach(function(t){ sums[t.category] = (sums[t.category]||0) + t.amount; total += t.amount; });
     var cats = Object.keys(sums).sort(function(a,b){ return sums[b]-sums[a]; });
@@ -866,6 +904,46 @@
     el.innerHTML = '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+bars+'</svg>';
   }
 
+  function renderHeatmap(monthTx){
+    var expenseTx = monthTx.filter(function(t){ return t.type==="expense"; });
+    var byDay = {};
+    expenseTx.forEach(function(t){ var d = +t.date.slice(8,10); byDay[d] = (byDay[d]||0) + t.amount; });
+
+    var daysInMonth = new Date(selYear, selMonth+1, 0).getDate();
+    var firstWeekday = new Date(selYear, selMonth, 1).getDay();
+    var maxDay = Math.max.apply(null, [0].concat(Object.keys(byDay).map(function(k){ return byDay[k]; })));
+    var now = new Date(), isCurMonth = now.getFullYear()===selYear && now.getMonth()===selMonth;
+
+    var wdLabels = ["อา","จ","อ","พ","ฤ","ศ","ส"];
+    var html = wdLabels.map(function(w){ return '<div class="hd">'+w+'</div>'; }).join("");
+    for(var i=0;i<firstWeekday;i++) html += '<div class="hc pad"></div>';
+    for(var d=1; d<=daysInMonth; d++){
+      var amt = byDay[d] || 0;
+      var op = maxDay>0 ? Math.max(0.1, amt/maxDay) : 0;
+      var bg = amt>0 ? "rgba(255,92,122,"+op.toFixed(2)+")" : "";
+      var isToday = isCurMonth && now.getDate()===d;
+      html += '<div class="hc'+(isToday?' today':'')+'"'+(bg?' style="background:'+bg+'"':'')+'>'+d+'</div>';
+    }
+    $("heatmapWrap").innerHTML = '<div class="heatmap">'+html+'</div>';
+
+    var insights = '';
+    if(expenseTx.length){
+      var catSums = {};
+      expenseTx.forEach(function(t){ catSums[t.category] = (catSums[t.category]||0) + t.amount; });
+      var topCat = Object.keys(catSums).sort(function(a,b){ return catSums[b]-catSums[a]; })[0];
+      var topCatInfo = catInfo("expense", topCat);
+      var topDayNum = Object.keys(byDay).sort(function(a,b){ return byDay[b]-byDay[a]; })[0];
+      var topDayLabel = topDayNum ? (topDayNum + " " + thMonthsShort[selMonth]) : "-";
+      insights = '<div class="insight-row">' +
+        '<div class="ins"><div class="k">หมวดที่ใช้จ่ายเยอะสุด</div><div class="v">'+ic(topCatInfo.icon)+' '+topCatInfo.name+' · '+money(catSums[topCat])+'</div></div>' +
+        '<div class="ins"><div class="k">วันที่ใช้จ่ายเยอะสุด</div><div class="v">'+topDayLabel+' · '+money(byDay[topDayNum]||0)+'</div></div>' +
+        '</div>';
+    } else {
+      insights = '<p class="empty-note" style="padding:10px 0 0">ยังไม่มีรายจ่ายเดือนนี้</p>';
+    }
+    $("insightWrap").innerHTML = insights;
+  }
+
   function computeCategorySpent(catId, monthTx){
     return monthTx.filter(function(t){ return t.type==="expense" && t.category===catId; }).reduce(function(s,t){ return s+t.amount; },0);
   }
@@ -913,7 +991,7 @@
     var net = filtered.reduce(function(sum,t){ return sum + sgn(t)*t.amount; },0);
     $("ledgerSummary").textContent = filtered.length+" รายการ • "+(net<0?"-":"")+"฿"+fmtMoney(Math.abs(net));
     if(filtered.length===0){
-      el.innerHTML = '<p class="empty-note">'+(monthTx.length===0 ? "ยังไม่มีรายการในเดือนนี้ กดปุ่ม + เพื่อเริ่มบันทึก" : "ไม่พบรายการที่ตรงกับการค้นหา")+'</p>';
+      el.innerHTML = '<div class="empty-state"><span class="es-ic">'+ic("list")+'</span><span class="es-t">'+(monthTx.length===0 ? "ยังไม่มีรายการในเดือนนี้ กดปุ่ม + เพื่อเริ่มบันทึก" : "ไม่พบรายการที่ตรงกับการค้นหา")+'</span></div>';
       return;
     }
     var byDate = {};
@@ -1006,6 +1084,7 @@
     document.getElementById("balanceVal").textContent = fmtMoney(income-expense);
 
     renderTrend();
+    renderHeatmap(monthTx);
     renderDonut("expenseDonutWrap", "expense", monthTx);
     renderDonut("incomeDonutWrap", "income", monthTx);
     renderWallets();
@@ -1140,14 +1219,14 @@
       var spent = computeCategorySpent(selectedCat, getMonthTx(selYear, selMonth));
       var info = catInfo("expense", selectedCat);
       if(budget>0 && spent>=budget){
-        showToast("เกินงบประมาณหมวด "+info.name+" แล้ว (฿"+fmtMoney(spent)+" / ฿"+fmtMoney(budget)+")", "over");
+        haptic([15,60,15]); showToast("เกินงบประมาณหมวด "+info.name+" แล้ว (฿"+fmtMoney(spent)+" / ฿"+fmtMoney(budget)+")", "over");
         return;
       } else if(budget>0 && spent>=budget*0.8){
         showToast("ใกล้เกินงบประมาณหมวด "+info.name+" ("+Math.round(spent/budget*100)+"%)", "warn");
         return;
       }
     }
-    showToast(wasEditing ? "บันทึกการแก้ไขแล้ว" : "บันทึกรายการแล้ว");
+    haptic(12); showToast(wasEditing ? "บันทึกการแก้ไขแล้ว" : "บันทึกรายการแล้ว");
   });
 
   document.getElementById("deleteEntry").addEventListener("click", function(){
@@ -1194,7 +1273,7 @@
         askDialog({title:"นำเข้าข้อมูล", text:"ข้อมูลปัจจุบันจะถูกแทนที่ด้วยไฟล์นี้ ("+incoming.transactions.length+" รายการ)", ok:"นำเข้า", danger:true}, function(){
           var snap = {transactions:transactions, categories:categories, budgets:budgets, wallets:wallets, recurring:recurring, goals:goals};
           applyData(incoming);
-          showToast("นำเข้าข้อมูลสำเร็จ", "", {label:"เลิกทำ", fn:function(){ applyData(snap); showToast("ย้อนกลับแล้ว"); }});
+          haptic(12); showToast("นำเข้าข้อมูลสำเร็จ", "", {label:"เลิกทำ", fn:function(){ applyData(snap); showToast("ย้อนกลับแล้ว"); }});
         });
       }catch(err){
         showToast("ไฟล์ไม่ถูกต้อง กรุณาลองใหม่", "over");
@@ -1237,6 +1316,7 @@
   }
 
   function $(id){ return document.getElementById(id); }
+  function haptic(pattern){ try{ if(navigator.vibrate) navigator.vibrate(pattern || 12); }catch(e){} }
   function clean(x,n){ return String(x==null?"":x).replace(/[<>&"']/g,"").trim().slice(0,n||30); }
   function money(n){ return "฿"+fmtMoney(n); }
   function walletById(id){ for(var i=0;i<wallets.length;i++){ if(wallets[i].id===id) return wallets[i]; } return null; }
@@ -1268,7 +1348,7 @@
     var idx = -1; for(var i=0;i<transactions.length;i++){ if(transactions[i].id===id){ idx = i; break; } }
     if(idx<0) return;
     var tx = transactions.splice(idx,1)[0];
-    saveTx(transactions); render();
+    saveTx(transactions); render(); haptic(10);
     showToast("ลบรายการแล้ว", "", {label:"เลิกทำ", fn:function(){
       transactions.splice(Math.min(idx, transactions.length), 0, tx); saveTx(transactions); render(); showToast("กู้รายการคืนแล้ว");
     }});
@@ -1414,7 +1494,7 @@
   function goalSaved(g){ return transactions.reduce(function(sum,t){ return sum + ((t.type==="transfer" && t.toWalletId===g.id) ? t.amount : 0); }, 0); }
   function renderGoals(){
     var box = $("goalList");
-    if(!goals.length){ box.innerHTML = '<p class="empty-note">ยังไม่มีเป้าหมาย กด + เพิ่ม เพื่อเริ่มเก็บเงิน</p>'; return; }
+    if(!goals.length){ box.innerHTML = '<div class="empty-state"><span class="es-ic">'+ic("target")+'</span><span class="es-t">ยังไม่มีเป้าหมาย กด + เพิ่ม เพื่อเริ่มเก็บเงิน</span></div>'; return; }
     box.innerHTML = goals.map(function(g){
       var sv = goalSaved(g), pct = g.target>0 ? Math.min(100, sv/g.target*100) : 0;
       return '<div class="budget-row"><div class="budget-head"><div class="who"><span class="icon" style="background:var(--amber-soft);color:var(--amber)">'+ic(g.icon,"lg")+'</span><div><div class="name">'+escapeHtml(g.name)+'</div><div class="pct ok">'+Math.round(pct)+'%</div></div></div><div class="spent">เก็บแล้ว<br><b>'+money(sv)+'</b> / '+money(g.target)+'</div></div><div class="budget-bar ok"><i style="width:'+pct+'%"></i></div><div class="chip-row"><button class="chip" data-gadd="'+g.id+'">+ เติมเงิน</button><button class="chip" data-gdel="'+g.id+'">ลบ</button></div></div>';
@@ -1461,8 +1541,8 @@
       paintPin();
       if(pinBuf.length===4){
         hashPin(pinBuf).then(function(h){
-          if(h===settings.pinHash){ $("lock").classList.remove("show"); pinBuf = ""; return; }
-          pinFails++; pinBuf = ""; paintPin();
+          if(h===settings.pinHash){ haptic(12); $("lock").classList.remove("show"); pinBuf = ""; return; }
+          haptic([20,40,20]); pinFails++; pinBuf = ""; paintPin();
           var L = $("lock"); L.classList.add("bad"); setTimeout(function(){ L.classList.remove("bad"); }, 350);
           $("pinMsg").textContent = pinFails>=3 ? "ลืม PIN? ล้างข้อมูลเว็บของแอปนี้ แล้วกู้จากไฟล์สำรอง" : "PIN ไม่ถูกต้อง";
         });
@@ -1645,7 +1725,12 @@
   sd.value = settings.startDay;
   sd.onchange = function(){ settings.startDay = +sd.value; saveSettings(); buildMonthOptions(); render(); };
   var madeRec = runRecurring(); updatePinBtn(); lockApp();
-  function applyTheme(){ if(settings.theme==="dark"||settings.theme==="light") document.documentElement.setAttribute("data-theme", settings.theme); else document.documentElement.removeAttribute("data-theme"); }
+  function applyTheme(){
+    if(settings.theme==="dark"||settings.theme==="light") document.documentElement.setAttribute("data-theme", settings.theme); else document.documentElement.removeAttribute("data-theme");
+    var bg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim();
+    var m = document.querySelector('meta[name="theme-color"]');
+    if(m && bg) m.setAttribute("content", bg);
+  }
   var th = $("themeSel"); th.value = settings.theme || "auto"; applyTheme();
   th.onchange = function(){ settings.theme = th.value; saveSettings(); applyTheme(); render(); };
 
