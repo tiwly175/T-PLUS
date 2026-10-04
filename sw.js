@@ -1,4 +1,4 @@
-const CACHE_NAME = 'samud-bunchi-v17';
+const CACHE_NAME = 'samud-bunchi-v19';
 const ASSETS = ['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png','./icon-512-maskable.png','./icon-1024.png'];
 
 self.addEventListener('install', (e) => {

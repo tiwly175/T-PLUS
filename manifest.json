@@ -9,8 +9,8 @@
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
-  "background_color": "#140B2E",
-  "theme_color": "#140B2E",
+  "background_color": "#082623",
+  "theme_color": "#082623",
   "lang": "th",
   "categories": ["finance", "productivity"],
   "shortcuts": [
